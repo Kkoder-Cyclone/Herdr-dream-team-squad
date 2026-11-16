@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ru" data-zcode-design>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Herdr Dream Team Squad — команда из четырёх AI-агентов для Herdr TUI</title>
+<style>
+:root{
+  --bg:#0f1216; --surface:#12161c; --raised:#171c22; --fg:#f0f0f0; --muted:#8a9cb0;
+  --border:#2a323d; --accent:#ff5701; --ok:#57df9c; --warn:#ffb000;
+  --mono:"Cascadia Mono",Consolas,monospace;
+  --sans:"Segoe UI",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:16px;line-height:1.6}
+.wrap{max-width:1080px;margin:0 auto;padding:0 28px}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+h2{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+  margin:56px 0 20px;font-weight:600}
+code,pre{font-family:var(--mono)}
+code{background:var(--raised);border:1px solid var(--border);border-radius:6px;padding:2px 7px;font-size:.88em}
+pre{background:var(--surface);border:1px solid var(--border);border-radius:12px;
+  padding:18px 22px;overflow-x:auto;font-size:13.5px;line-height:1.7;margin:14px 0}
+pre .c{color:#57df9c}pre .o{color:#8a9cb0}pre .a{color:#ffb000}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+header{padding:64px 0 44px;border-bottom:1px solid var(--border);
+  background:linear-gradient(180deg,#12161c 0%,var(--bg) 100%)}
+h1{font-size:42px;font-weight:600;letter-spacing:-.02em;line-height:1.05}
+.tagline{color:var(--muted);font-size:17px;max-width:62ch}
+.badges{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+.badge{border:1px solid var(--border);border-radius:99px;padding:4px 14px;
+  font-family:var(--mono);font-size:12px;color:var(--muted)}
+.badge b{color:var(--fg);font-weight:600}
+.cta{display:flex;gap:14px;margin-top:26px;flex-wrap:wrap}
+.btn{display:inline-block;border-radius:10px;padding:11px 22px;font-weight:600;font-size:14.5px}
+.btn.main{background:var(--accent);color:#16100d}
+.btn.ghost{border:1px solid var(--border);color:var(--fg)}
+.btn:hover{text-decoration:none;filter:brightness(1.08)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:24px}
+.card h3{font-size:16.5px;font-weight:600;margin-bottom:8px}
+.card p{color:var(--muted);font-size:14px}
+.card .num{font-family:var(--mono);font-size:12px;color:var(--accent);letter-spacing:.06em}
+table{width:100%;border-collapse:collapse;font-size:14px;margin:14px 0}
+th{text-align:left;color:var(--muted);font-weight:600;font-size:12px;letter-spacing:.06em;
+  text-transform:uppercase;padding:8px 12px;border-bottom:1px solid var(--border)}
+td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:top}
+.shot{width:100%;border:1px solid var(--border);border-radius:12px;display:block;margin:16px 0}
+.cap{color:var(--muted);font-size:13px;margin:-8px 0 16px}
+footer{margin-top:64px;padding:28px 0 44px;border-top:1px solid var(--border);
+  color:var(--muted);font-size:13.5px}
+@media(max-width:860px){.grid2{grid-template-columns:1fr}h1{font-size:32px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>Dream Team Squad</h1>
+    <p class="tagline">Команда из четырёх AI-агентов для Herdr TUI: Маяк (Claude) — лид, Гермес (Hermes) — заместитель и аудит, Forge (OpenCode) — тяжёлый код, Грок (Grok) — мост и поиск. Каждый — своя вкладка в workspace «Dream Team Squad». Команды `a dream all|mayak|veter|forge|iskra|check`. Собрано по скиллу <a href="https://github.com/Kkoder-Cyclone/Herdr-skill-setup">herdr-setup</a>.</p>
+    <div class="badges">
+      <span class="badge">stack <b>Herdr TUI</b></span>
+      <span class="badge">team <b>Маяк · Гермес · Forge · Грок</b></span>
+      <span class="badge">route <b>user → Маяк → Гермес → Forge / Грок → user</b></span>
+      <span class="badge">license <b>MIT</b></span>
+    </div>
+    <div class="cta">
+      <a class="btn main" href="docs/SETUP.md">Сборка</a>
+      <a class="btn ghost" href="https://github.com/Kkoder-Cyclone/Herdr-dream-team-squad">GitHub</a>
+      <a class="btn ghost" href="docs/ARCHITECTURE.md">Архитектура</a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <h2>Вкладки workspace</h2>
+  <img class="shot" src="screenshots/02-dream-tabs.png" alt="Вкладки Dream Team Squad">
+  <p class="cap">Реальный вывод. Живые статусы — `a dream check`.</p>
+
+  <h2>Роли</h2>
+  <div class="grid2">
+    <div class="card"><span class="num">mayak · claude</span><h3>Маяк — лид</h3><p>Принимает цель, строит план, распределяет задания, принимает итог. Карточки канбана из to-do.</p></div>
+    <div class="card"><span class="num">veter · hermes</span><h3>Гермес — заместитель</h3><p>Аудит и ревью чужими глазами, координация в отсутствие Маяка.</p></div>
+    <div class="card"><span class="num">forge · opencode</span><h3>Forge — тяжёлый код</h3><p>Реализует назначенное в своей ветке, проверяет сборку, PR к основной.</p></div>
+    <div class="card"><span class="num">iskra · grok</span><h3>Грок — мост</h3><p>Быстрый поиск, черновики, связь между агентами. Финал — за лидом.</p></div>
+  </div>
+
+  <h2>Команды</h2>
+  <pre><span class="c">a dream all</span>      # поднять всех четверых
+a dream mayak    # только Маяк
+a dream check    # статусы четверых
+a dream mayak <span class="a">&lt;папка-проекта&gt;</span>  # запуск в папке проекта</pre>
+
+  <h2>Скриншоты</h2>
+  <img class="shot" src="screenshots/01-dream-agents.png" alt="Dream Team check">
+  <p class="cap">Только TUI: реальные выводы.</p>
+
+  <h2>Что внутри</h2>
+  <table>
+    <tr><th>Файл</th><th>Назначение</th></tr>
+    <tr><td><code>docs/ARCHITECTURE.md</code></td><td>Роли, маршрут, Git-цикл</td></tr>
+    <tr><td><code>docs/SETUP.md</code></td><td>Пошаговая сборка со скриншотами</td></tr>
+    <tr><td><code>agents/</code></td><td>Рабочие места mayak, veter, forge, iskra</td></tr>
+    <tr><td><code>examples/wrappers/</code></td><td>Движок dream.js + dream.cmd</td></tr>
+    <tr><td><code>LICENSE</code></td><td>MIT</td></tr>
+  </table>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><b style="color:var(--fg)">Herdr Dream Team Squad</b> · MIT · Авторы: <b>Codex</b> (скилл-база) и <b>K.ai в ZCode</b> (документация, публикация).</p>
+    <p>Связанные: <a href="https://github.com/Kkoder-Cyclone/Herdr-star-wars-squad">Star Wars Squad</a> · <a href="https://github.com/Kkoder-Cyclone/Herdr-skill-setup">herdr-setup</a>.</p>
+  </div>
+</footer>
+</body>
+</html>
