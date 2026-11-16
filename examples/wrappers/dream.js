@@ -5,6 +5,7 @@
 "use strict";
 const { execFileSync } = require("child_process");
 const path = require("path");
+const fs = require("fs");
 
 const WS_LABEL = "Dream Team Squad";
 const ROOT = process.env.DREAM_ROOT || process.cwd(); // ili zaday put v etoj stroke
@@ -43,6 +44,12 @@ function agentsNow() {
 
 function raise(a, ws, cwdOverride) {
   const cwd = cwdOverride || path.join(ROOT, a.dir);
+  if (cwdOverride) {
+    // Kartochka komandy edet s agentom: AGENTS.md (+CLAUDE.md) iz papki komandy v papku proekta.
+    for (const f of ["AGENTS.md", "CLAUDE.md"]) {
+      try { fs.copyFileSync(path.join(ROOT, a.dir, f), path.join(cwdOverride, f)); } catch {}
+    }
+  }
   const c = j(run(["tab", "create", "--workspace", ws, "--cwd", cwd]));
   const pane = c && c.result && c.result.root_pane ? c.result.root_pane.pane_id : null;
   if (!pane) { console.log("[dream] " + a.name + ": tab create NE udalsya"); return 1; }
